@@ -1,0 +1,162 @@
+[
+  {
+    "id": "A",
+    "name": "Apex",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 26.76},
+    "long": {"deg": -6, "min": 3.26}
+  },
+  {
+    "id": "B",
+    "name": "Balscadden",
+    "shape": "Conical",
+    "color": "Orange",
+    "lat": {"deg": 53, "min": 23.30},
+    "long": {"deg": -6, "min": 3.26}
+  },
+  {
+    "id": "C",
+    "name": "Cush",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 24.61},
+    "long": {"deg": -6, "min": 5.45}
+  },
+  {
+    "id": "D",
+    "name": "Dunbo",
+    "shape": "Conical",
+    "color": "Yellow",
+    "lat": {"deg": 53, "min": 24.73},
+    "long": {"deg": -6, "min": 3.85}
+  },
+  {
+    "id": "E",
+    "name": "East",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 26.00},
+    "long": {"deg": -6, "min": 2.20}
+  },
+  {
+    "id": "G",
+    "name": "Garbh",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 25.00},
+    "long": {"deg": -6, "min": 2.32}
+  },
+  {
+    "id": "Howth",
+    "name": "Howth",
+    "shape": "IALA",
+    "color": "Green",
+    "lat": {"deg": 53, "min": 23.69},
+    "long": {"deg": -6, "min": 3.56}
+  },
+  {
+    "id": "H",
+    "name": "Hub",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 25.71},
+    "long": {"deg": -6, "min": 4.43}
+  },
+  {
+    "id": "I",
+    "name": "Island",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 24.70},
+    "long": {"deg": -6, "min": 4.36}
+  },
+  {
+    "id": "J",
+    "name": "Thulla",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 23.80},
+    "long": {"deg": -6, "min": 3.40}
+  },
+  {
+    "id": "K",
+    "name": "Stack",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 24.60},
+    "long": {"deg": -6, "min": 3.11}
+  },
+  {
+    "id": "O",
+    "name": "Osprey",
+    "shape": "Conical",
+    "color": "Orange",
+    "lat": {"deg": 53, "min": 25.41},
+    "long": {"deg": -6, "min": 3.52}
+  },
+  {
+    "id": "P",
+    "name": "Portmarnock",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 25.63},
+    "long": {"deg": -6, "min": 5.80}
+  },
+  {
+    "id": "Q",
+    "name": "Rowan Rocks",
+    "shape": "IALA",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 23.88},
+    "long": {"deg": -6, "min": 3.22}
+  },
+  {
+    "id": "R",
+    "name": "South Rowan",
+    "shape": "IALA",
+    "color": "Green",
+    "lat": {"deg": 53, "min": 23.78},
+    "long": {"deg": -6, "min": 3.88}
+  },
+  {
+    "id": "S",
+    "name": "Spit",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 24.35},
+    "long": {"deg": -6, "min": 4.48}
+  },
+  {
+    "id": "U",
+    "name": "Ulysses",
+    "shape": "Conical",
+    "color": "Orange",
+    "lat": {"deg": 53, "min": 26.22},
+    "long": {"deg": -6, "min": 4.97}
+  },
+  {
+    "id": "V",
+    "name": "Viceroy",
+    "shape": "Conical",
+    "color": "Orange",
+    "lat": {"deg": 53, "min": 25.12},
+    "long": {"deg": -6, "min": 4.78}
+  },
+  {
+    "id": "W",
+    "name": "West",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 24.96},
+    "long": {"deg": -6, "min": 6.07}
+  },
+  {
+    "id": "X",
+    "name": "Xebec",
+    "shape": "Conical",
+    "color": "Black",
+    "lat": {"deg": 53, "min": 23.83},
+    "long": {"deg": -6, "min": 4.41}
+  }
+]
