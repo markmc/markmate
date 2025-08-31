@@ -79,8 +79,8 @@ def compute_courses(courses, marks):
         mark_dict[m.id] = m
 
     for course in courses:
-        # course ID encodes TWA - e.g. 032 means TWA=40
-        wind_angle = (int(course.id[:2]) * 10) + 10
+        # course ID encodes TWA - e.g. 032 means TWA=30
+        wind_angle = int(course.id[:2]) * 10
 
         mark_seq = []
         for m in course.marks:
