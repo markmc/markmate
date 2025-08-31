@@ -15,5 +15,5 @@ class Color(str, Enum):
 
 
 class Rounding(str, Enum):
-    PORT = "Port"
-    STARBOARD = "Starboard"
+    PORT = "P"
+    STARBOARD = "S"
