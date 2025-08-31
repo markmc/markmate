@@ -37,6 +37,10 @@ jobs:
             markmate course compute --format=pdf "$dir"
             cp "$dir"/*.json "$dir"/*.png "$dir"/*.csv "$dir"/*.pdf "$OUTPUT_DIR/$club/"
           done
+          echo "---"
+          pwd
+          find .
+          touch $OUTPUT_DIR/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
