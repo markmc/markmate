@@ -3,9 +3,6 @@ name: Generate and Publish markmate Outputs
 on:
   workflow_dispatch:
   push:
-    paths:
-      - '**/marks.json'
-      - '**/courses.json'
     branches:
       - main
 
