@@ -1,0 +1,49 @@
+name: Generate and Publish markmate Outputs
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**/marks.json'
+      - '**/courses.json'
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install markmate
+        run: |
+          pip install .
+
+      - name: Generate outputs
+        run: |
+          OUTPUT_DIR=public
+          mkdir -p $OUTPUT_DIR
+          for dir in $(find . -name "marks.json" | xargs -n1 dirname | sort -u); do
+            echo "Processing $dir"
+            club=$(basename "$dir")
+            mkdir -p "$OUTPUT_DIR/$club"
+            markmate mark compute --format=csv "$dir"
+            markmate mark compute --format=pdf "$dir"
+            markmate course compute --format=csv "$dir"
+            markmate course compute --format=pdf "$dir"
+            cp "$dir"/*.json "$dir"/*.png "$dir"/*.csv "$dir"/*.pdf "$OUTPUT_DIR/$club/"
+          done
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
