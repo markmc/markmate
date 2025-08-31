@@ -1,8 +1,11 @@
 import typer
 from pathlib import Path
+from typing import Optional
 
 from markmate.compute import compute_courses
 from markmate.load import load_courses, load_marks
+from markmate import csv
+from markmate import pdf
 
 
 app = typer.Typer()
@@ -24,9 +27,20 @@ def list_courses(directory: Path):
 
 
 @app.command("compute")
-def compute(directory: Path):
+def compute(directory: Path,
+            format: Optional[str] = typer.Option(
+                None,
+                "--format",
+                help="Output format: pdf or csv",
+                case_sensitive=False,
+                show_choices=True,
+                metavar="pdf|csv",
+            )):
     """
     Compute course lengths from data in DIRECTORY.
+
+    By default, output is to stdout, but --format=pdf or --format=csv
+    is also supported.
     """
     if not directory.exists():
         typer.echo(f"Error: Directory {directory} does not exist.")
@@ -39,4 +53,9 @@ def compute(directory: Path):
 
     table = compute_courses(courses, marks)
 
-    print(table)
+    if format == "pdf":
+        pdf.format_courses(table)
+    elif format == "csv":
+        csv.format_courses(table)
+    else:
+        print(table)
