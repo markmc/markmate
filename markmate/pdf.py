@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
@@ -6,11 +8,11 @@ from reportlab.platypus import Image
 from reportlab.lib.units import inch
 
 
-def format_marks(marks, matrix):
+def format_marks(marks, matrix, directory: Path):
     """Format the output of compute_marks() in PDF."""
     mark_ids = [m.id for m in marks]
 
-    doc = SimpleDocTemplate("marks.pdf", pagesize=A4)
+    doc = SimpleDocTemplate(str(directory / "marks.pdf"), pagesize=A4)
     styles = getSampleStyleSheet()
     elements = []
 
@@ -19,7 +21,7 @@ def format_marks(marks, matrix):
     elements.append(Spacer(1, 12))
 
     # Add map image
-    img = Image("map.png", width=5*inch, height=3*inch)
+    img = Image(str(directory / "map.png"), width=5*inch, height=3*inch)
     elements.append(img)
     elements.append(Spacer(1, 12))
 
@@ -65,9 +67,9 @@ def format_marks(marks, matrix):
     doc.build(elements)
 
 
-def format_courses(table):
+def format_courses(table, directory: Path):
     """Format the output of compute_courses in CSV."""
-    doc = SimpleDocTemplate("courses.pdf", pagesize=A4)
+    doc = SimpleDocTemplate(str(directory / "courses.pdf"), pagesize=A4)
     styles = getSampleStyleSheet()
     elements = []
 
@@ -107,4 +109,3 @@ def format_courses(table):
     elements.append(table)
 
     doc.build(elements)
-

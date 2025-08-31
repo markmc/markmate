@@ -54,8 +54,8 @@ def compute(directory: Path,
     table = compute_courses(courses, marks)
 
     if format == "pdf":
-        pdf.format_courses(table)
+        pdf.format_courses(table, directory)
     elif format == "csv":
-        csv.format_courses(table)
+        csv.format_courses(table, directory)
     else:
         print(table)

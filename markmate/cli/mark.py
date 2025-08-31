@@ -55,8 +55,8 @@ def compute(directory: Path,
     matrix = compute_marks(marks)
 
     if format == "pdf":
-        pdf.format_marks(marks, matrix)
+        pdf.format_marks(marks, matrix, directory)
     elif format == "csv":
-        csv.format_marks(marks, matrix)
+        csv.format_marks(marks, matrix, directory)
     else:
         print(table)
