@@ -28,7 +28,7 @@ def list(directory: Path):
 @app.command("compute")
 def compute(directory: Path):
     """
-    List all marks from data in DIRECTORY.
+    Compute distances and bearings between marks from data in DIRECTORY.
     """
     if not directory.exists():
         typer.echo(f"Error: Directory {directory} does not exist.")
