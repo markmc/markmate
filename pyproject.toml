@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "markmate"
+version = "0.1.0"
+description = "A tool for managing sailing marks and courses."
+authors = [{name = "Mark McLoughlin"}]
+dependencies = [
+    "typer>=0.9.0",
+]
+
+[project.scripts]
+markmate = "markmate.cli:main"
