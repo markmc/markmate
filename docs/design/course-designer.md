@@ -1,68 +1,109 @@
-# Course Designer Tool - Project Plan v1.0
+# Course Designer Tool - Project Plan v2.0
 
 ## Overview
-An interactive course design tool for race officers to visually construct sailing courses by selecting marks from the existing marks database, with real-time map visualization and automatic course validation.
+A courses.json editor that allows race officers to define race infrastructure and create multiple sailing courses with real-time map visualization. The tool operates on a single courses.json file while using marks from the existing marks.json database.
 
 ## Current State Analysis
-- **Existing data**: 19 sailing marks in Dublin Bay with GPS coordinates, shapes, and colors
-- **Course structure**: JSON format with course ID and mark sequence (some include rounding direction)
-- **Course ID encoding**: First 2-3 digits represent wind angle (e.g., "021" = 20° wind angle)
+- **Existing data**: 19 sailing marks in Dublin Bay with GPS coordinates, shapes, and colors (immutable)
+- **Course structure**: JSON format with course ID, True Wind Angle (TWA), and mark sequence
+- **Race infrastructure**: Start point, finish point, and first upwind mark distance shared across all courses
 - **Computation engine**: Existing functions for distance/bearing calculations and course length estimation
 
 ## Functional Requirements
 
 ### Core Features
-1. **Interactive Course Builder**
-   - Drag-and-drop interface to add marks to course sequence
-   - Mark library showing all available marks with visual indicators
-   - Course sequence editor with ability to reorder, add, remove marks
+1. **Race Infrastructure Setup**
+   - Define start point coordinates (single GPS point)
+   - Define finish point coordinates (single GPS point)
+   - Set first upwind mark distance (default 0.5 nautical miles)
+   - Infrastructure applies to all courses in the file
+
+2. **Multi-Course Editor**
+   - Create and edit multiple courses within single courses.json
+   - Set True Wind Angle (TWA) for each course
+   - Build mark sequences using drag-and-drop interface
+   - Course sequence editor with reorder, add, remove capabilities
    - Rounding direction selector (Port/Starboard) for each mark
 
-2. **Real-time Map Visualization**
-   - Interactive map showing mark positions and current course path
-   - Course legs drawn as lines between marks
+3. **Complete Race Visualization**
+   - Interactive map showing: Start → First Upwind Mark → Course Marks → Finish
+   - Course legs drawn as lines between all waypoints
    - Visual indicators for upwind legs and rounding directions
+   - Mark library showing all available marks (read-only)
    - Zoom/pan capabilities for detailed course inspection
 
-3. **Course Validation & Analytics**
-   - Live course length calculation as marks are added
-   - Wind angle analysis and leg classification (upwind/reaching/downwind)
-   - Course balance validation (varied sailing angles)
-   - Collision detection with land/hazards (future enhancement)
+4. **Course Analytics & Validation**
+   - Live course length calculation including all segments
+   - Wind angle analysis using course TWA
+   - Leg classification (upwind/reaching/downwind)
+   - Course balance validation
 
-4. **Course Management**
-   - Save new courses to courses.json
-   - Load existing courses for editing
-   - Course ID auto-generation based on wind conditions
-   - Export course data for race instructions
+5. **File Management**
+   - Load existing courses.json for editing
+   - Save complete race setup (infrastructure + all courses)
+   - Data validation and integrity checking
 
 ### User Interface Components
-1. **Mark Library Panel** - Grid of available marks with search/filter
-2. **Course Builder Panel** - Current course sequence with edit controls
-3. **Map Canvas** - Interactive map with marks and course visualization
-4. **Properties Panel** - Course metadata (wind angle, length, notes)
-5. **Action Bar** - Save, load, new, validate buttons
+1. **Infrastructure Panel** - Set start/finish coordinates and first upwind distance
+2. **Course List Panel** - Manage multiple courses with add/delete/select
+3. **Course Editor Panel** - Edit selected course (TWA, mark sequence, rounding)
+4. **Mark Library Panel** - Grid of available marks from marks.json (read-only)
+5. **Map Canvas** - Complete race visualization with all waypoints
+6. **Properties Panel** - Course analytics (TWA, length, leg breakdown)
+7. **Action Bar** - Save, load, validate, export buttons
 
 ## Technical Architecture
 
-### Frontend Framework
-- **Web-based application** using modern JavaScript framework (React/Vue/Svelte)
-- **Map library**: Leaflet.js or MapBox GL JS for interactive mapping
-- **UI components**: Modern component library for consistent interface
-- **State management**: Centralized store for course data and UI state
+### Static Web Application Stack
+- **Frontend**: React + TypeScript for type safety and developer experience
+- **Styling**: Tailwind CSS for modern utility-first styling
+- **Build System**: Vite for fast development and optimized production builds
+- **IDE**: VS Code with standard React/TypeScript extensions
+- **Map Library**: Leaflet.js for interactive mapping
+- **Map Providers**: 
+  - OpenStreetMap for coastline/street view
+  - ESRI World Imagery for satellite view
+  - Layer switcher for toggling between views
 
-### Backend Integration
-- **File I/O**: Read/write operations for marks.json and courses.json
-- **Computation engine**: Leverage existing markmate.compute functions
-- **API layer**: REST endpoints for course operations (CRUD)
-- **Validation**: Server-side course validation and conflict checking
+### Deployment Model
+- **Static hosting**: GitHub Pages, Netlify, S3, or any static file server
+- **Zero backend**: Pure client-side application
+- **File bundling**: Ships with marks.json and template courses.json files
+- **URL-based templates**: `?courses=tuesday-night.json` loads specific race format
+- **Cross-platform**: Runs on any device with modern web browser
+
+### Data Management
+- **File I/O**: Browser-based file upload/download
+- **Persistence**: Auto-save to localStorage with session management
+- **Validation**: Strict JSON schema validation for uploaded files
+- **Change Tracking**: Course-level modification indicators
+
+### Data Structure
+```json
+{
+  "start": {"lat": {"deg": 53, "min": 25.0}, "long": {"deg": -6, "min": 4.0}},
+  "finish": {"lat": {"deg": 53, "min": 24.0}, "long": {"deg": -6, "min": 3.0}},
+  "first_upwind_distance": 0.5,
+  "courses": [
+    {
+      "id": "001",
+      "twa": 45,
+      "marks": [
+        {"id": "W", "rounding": "P"},
+        {"id": "I"}
+      ]
+    }
+  ]
+}
+```
 
 ### Data Flow
-1. Load marks from marks.json on application start
-2. User constructs course through UI interactions
-3. Real-time validation and calculation updates
-4. Save validated course to courses.json
-5. Generate course visualization and export options
+1. Load marks.json (read-only reference data)
+2. Load or create courses.json with infrastructure + courses
+3. User edits race infrastructure and course definitions
+4. Real-time visualization shows complete race: Start → First Upwind → Marks → Finish
+5. Live calculations include all race segments
+6. Save complete race setup to courses.json
 
 ## Implementation Phases
 
@@ -92,28 +133,43 @@ An interactive course design tool for race officers to visually construct sailin
 
 ## Technology Stack Considerations
 
-### Web Application Options
-1. **Standalone web app** - Separate application with its own server
-2. **CLI integration** - Add web server capability to existing markmate tool
-3. **Desktop application** - Electron wrapper for offline usage
+### User Workflow
+1. **Template Loading**: User clicks link with specific courses.json template
+2. **Race Setup**: Configure infrastructure (start/finish points, upwind distance)
+3. **Course Design**: Create multiple courses with TWA and mark sequences
+4. **Visualization**: Real-time map showing complete race paths
+5. **Collaboration**: Download courses.json, email to technical person
+6. **Version Control**: Technical person loads file, reviews, commits to git
 
-### Map Visualization Libraries
-- **Leaflet.js**: Open-source, lightweight, good marker/line support
-- **MapBox GL JS**: Professional features, better performance, requires API key
-- **OpenLayers**: Full-featured but complex
+### Session Management
+- **Change Indicators**: Visual markers for modified courses vs. original
+- **Auto-save**: Browser localStorage prevents work loss
+- **Fresh Start**: "New Race" clears session, loads template
+- **Reset Options**: Revert individual courses or entire race setup
+- **File Operations**: Load existing courses.json, download current state
 
-### Persistence Strategy
-- **File-based**: Continue using JSON files (simple, matches existing pattern)
-- **Database**: SQLite for better concurrent access and querying
-- **Hybrid**: JSON for compatibility, optional database for advanced features
+### Map Visualization Requirements
+- **Marine focus**: Minimal land detail, emphasis on coastline and water areas
+- **Essential features**: Coastline, islands, navigation hazards
+- **Course elements**: Mark positions, course paths, wind direction indicators
+- **User controls**: Zoom, pan, layer switching (street/satellite)
+- **Clean interface**: Nautical-appropriate styling with minimal distractions
 
-## Key Design Decisions Needed
+## Technology Rationale
 
-1. **User Interface Framework**: React vs Vue vs Svelte vs vanilla JavaScript
-2. **Map Provider**: Leaflet vs MapBox vs OpenLayers
-3. **Deployment Model**: Standalone web app vs integrated CLI extension
-4. **Styling Approach**: CSS framework vs custom styling
-5. **Testing Strategy**: Unit tests, integration tests, user acceptance testing
+### Developer-Friendly Choices
+- **React + TypeScript**: Industry standard, any JavaScript developer can contribute
+- **Tailwind CSS**: Modern, popular utility-first approach
+- **Vite**: Fast, modern build tool with excellent developer experience
+- **VS Code**: Standard IDE with built-in TypeScript and React support
+- **Leaflet**: Most popular open-source mapping library
+
+### Static Deployment Benefits
+- **No backend complexity**: Zero server infrastructure required
+- **Universal hosting**: Works on any static file hosting service
+- **Offline capable**: Functions after initial load
+- **Version control friendly**: All code and data files in git
+- **Cost effective**: Free hosting options available
 
 ## Success Criteria
 - Race officers can construct courses 5x faster than manual editing
