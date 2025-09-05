@@ -3,6 +3,28 @@
 ## Overview
 A courses.json editor that allows race officers to define race infrastructure and create multiple sailing courses with real-time map visualization. The tool operates on a single courses.json file while using marks from the existing marks.json database.
 
+## Proof of Concept Scope
+**Minimal read-only course visualizer focused on:**
+
+**IN SCOPE:**
+- Read-only course visualization from existing courses.json
+- Course switching via simple dropdown
+- Mark shapes/colors on OpenStreetMap (from marks.json)
+- Rounding indicators (P/S arrows or symbols)
+- Lines connecting marks in sequence
+- Total course distance calculation displayed as text
+- Auto-zoom to fit all marks
+- TWA implied from course ID (first two digits: "042" = 40°)
+- Load marks.json for mark coordinates
+
+**OUT OF SCOPE:**
+- Start/finish/upwind infrastructure
+- Course analytics beyond distance
+- Configurable TWA (use course ID instead)
+- Leg classification colors
+- Zoom/pan controls
+- Properties panel
+
 ## Current State Analysis
 - **Existing data**: 19 sailing marks in Dublin Bay with GPS coordinates, shapes, and colors (immutable)
 - **Course structure**: JSON format with course ID, True Wind Angle (TWA), and mark sequence
