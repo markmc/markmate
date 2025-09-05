@@ -11,13 +11,27 @@ interface RoundingIndicatorProps {
 }
 
 function createRoundingIcon(rounding: 'P' | 'S'): DivIcon {
-  const arrow = rounding === 'P' ? '⭮' : '⭯';
-  const color = rounding === 'P' ? '#00FF00' : '#FF0000';
+  const symbol = rounding === 'P' ? '↺' : '↻';
+  const color = rounding === 'P' ? '#00FF00' : '#FF6600';
+  const backgroundColor = rounding === 'P' ? 'rgba(0,255,0,0.2)' : 'rgba(255,102,0,0.2)';
   
   return new DivIcon({
-    html: `<div style="color: ${color}; font-size: 16px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">${arrow}</div>`,
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
+    html: `<div style="
+      color: ${color}; 
+      background: ${backgroundColor};
+      font-size: 20px; 
+      font-weight: bold; 
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      border: 2px solid ${color};
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    ">${symbol}</div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12],
     className: 'rounding-indicator'
   });
 }
@@ -26,19 +40,23 @@ export function RoundingIndicator({ mark, rounding, nextMark }: RoundingIndicato
   const map = useMap();
 
   useEffect(() => {
-    if (!rounding) return;
+    // Only show indicator for starboard rounding
+    if (rounding !== 'S') return;
 
     const icon = createRoundingIcon(rounding);
     const position = new LatLng(mark.position[0], mark.position[1]);
     
-    let offsetPosition = position;
+    // Position just outside the mark (larger offset)
+    const offsetDistance = 0.0008; // Closer to mark but still outside
+    let offsetBearing = 45; // Default northeast position
+    
     if (nextMark) {
       const bearing = calculateBearing(mark.position, nextMark.position);
-      const offsetDistance = 0.001; // Small offset in degrees
-      const offsetBearing = bearing + (rounding === 'P' ? -45 : 45);
-      offsetPosition = offsetCoordinate(position, offsetDistance, offsetBearing);
+      // Position perpendicular to the course direction
+      offsetBearing = bearing + 90;
     }
-
+    
+    const offsetPosition = offsetCoordinate(position, offsetDistance, offsetBearing);
     const marker = L.marker(offsetPosition, { icon }).addTo(map);
 
     return () => {

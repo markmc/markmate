@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import { Icon, LatLngBounds } from 'leaflet';
 import type { MarkWithCoordinates, Course, CourseMark } from '../types';
 import { RoundingIndicator } from './RoundingIndicator';
+import { CoursePathWithArrows } from './CoursePathWithArrows';
 import 'leaflet/dist/leaflet.css';
 
 
@@ -110,11 +111,9 @@ export function Map({ marks, selectedCourse }: MapProps) {
       })}
 
       {coursePath.length > 1 && (
-        <Polyline
-          positions={coursePath}
-          color="#FF0000"
-          weight={3}
-          opacity={0.8}
+        <CoursePathWithArrows 
+          coursePath={coursePath} 
+          courseMarks={courseMarks}
         />
       )}
 

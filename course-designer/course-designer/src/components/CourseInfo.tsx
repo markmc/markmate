@@ -49,7 +49,19 @@ export function CourseInfo({ selectedCourse, marks }: CourseInfoProps) {
       <div className="space-y-1">
         <p><span className="font-medium">TWA:</span> {twa}°</p>
         <p><span className="font-medium">Distance:</span> {distance.toFixed(2)} nautical miles</p>
-        <p><span className="font-medium">Marks:</span> {selectedCourse.marks.map(m => m.id).join(' → ')}</p>
+        <p>
+          <span className="font-medium">Marks:</span>{' '}
+          {selectedCourse.marks.map((courseMark, index) => (
+            <span key={index}>
+              {index > 0 && ' → '}
+              <span 
+                className={courseMark.rounding === 'S' ? 'text-green-600 underline font-semibold' : ''}
+              >
+                {courseMark.id}
+              </span>
+            </span>
+          ))}
+        </p>
       </div>
     </div>
   );

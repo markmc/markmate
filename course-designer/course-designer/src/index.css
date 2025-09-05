@@ -11,3 +11,16 @@ body {
   background: none !important;
   border: none !important;
 }
+
+/* Ensure starboard rounding styles are available */
+.text-green-600 {
+  color: #059669;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
